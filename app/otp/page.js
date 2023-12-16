@@ -124,7 +124,7 @@ export default function OTP() {
             sessionStorage.setItem('userid', loggedIn.user.uid)
             //const origin=request.headers.get("origin")
 
-            fetch('http://192.168.1.102/auth/login', {
+            fetch('http://13.126.83.192 /auth/login', {
                 method: 'POST',
                 headers: {
 
