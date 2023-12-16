@@ -51,7 +51,7 @@ export default function Flex() {
 			firebaseid:'',
 			vote:flex[selected].name
 		}
-		fetch(scriptUrl, {method: 'POST', body: JSON.stringify(data)})
+		fetch(scriptUrl, {method: 'POST',mode: 'no-cors', body: JSON.stringify(data)})
         .then(res => {
             console.log("SUCCESSFULLY SUBMITTED")
         })
