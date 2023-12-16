@@ -91,7 +91,7 @@ export default function Flex() {
 		fetch('https://hooks.slack.com/services/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', {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json',
+				'Content-type': 'application/x-www-form-urlencoded',
 			},
 			body: JSON.stringify({ text: flex[selected-1].name }),
 		})
