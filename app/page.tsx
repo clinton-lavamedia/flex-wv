@@ -9,12 +9,22 @@ import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 import { Card, CardBody, Input, Button, Slider } from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
-import { getRedirectResult, signInWithRedirect ,RecaptchaVerifier,signInWithPhoneNumber} from "firebase/auth";
+import { getRedirectResult, signInWithRedirect, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "./src/lib/clientApp";
-import toast,{ Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { useSearchParams } from 'next/navigation'
 
 import { useEffect, useState } from "react";
 export default function Home() {
+    const [name, setName] = useState("");
+	const searchParams = useSearchParams()
+	useEffect(() => {
+		
+
+		var param = searchParams.get('name')
+		setName(param? param : '')
+		
+	}, []);
 	const router = useRouter()
 	const [phone, setPhone] = useState("");
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -22,67 +32,68 @@ export default function Home() {
 	const resendOTP = async () => {
 		console.log('sending otp')
 		if (phone == null) {
-		 // toast.error("something wrong try to again send otp");
-		  return;
+			// toast.error("something wrong try to again send otp");
+			return;
 		}
-	    var recaptcha;
+		var recaptcha;
 
 		/* if (isButtonDisabled) {
 		  return;
 		} */
-	
-		try {
-		  setIsButtonDisabled(true);
-		 
-		  const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {
-			size: "invisible",
-		  });
-	
-		  const confirmation = await signInWithPhoneNumber(
-			auth,
-			"+91" + phone,
-			recaptcha
-		  );
-		  console.log(confirmation)
-		  if (typeof window !== 'undefined') {
-			sessionStorage.setItem('phone', phone)
-			sessionStorage.setItem('confirmation', JSON.stringify(confirmation))
 
-		  }
-		  toast.success("otp sended successfully");
-		  router.push('/otp')
-		  
-		  /* toast.success("otp sended successfully");
-		  dispatch(addUser(confirmation));
-		  dispatch(addPhoneNumber(phone));
-		  dispatch(changeStateFalse());
-		  setOtpTime(40); */
-		} catch (error:any) {
-		  switch (error.code) {
-			case "auth/too-many-requests":
-			  toast.error("Too many requests. Please try again later.");
-			  break;
-			case "auth/invalid-phone-number":
-			  toast.error("The phone number is invalid.");
-			  break;
-			  case"auth/quota-exceeded":
-			  toast.error("Quota exceeded");
-			default:
-			  toast.error("Something went wrong. Please try again later.",error.code);
-			  break;
-		  }
-		  recaptcha = "";
-		  if (typeof window !== 'undefined') {
-			sessionStorage.setItem('phone', phone)
-		  }
-		  router.push('/otp')
-		  console.log(error);
+		try {
+			setIsButtonDisabled(true);
+
+			const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {
+				size: "invisible",
+			});
+
+			const confirmation = await signInWithPhoneNumber(
+				auth,
+				"+91" + phone,
+				recaptcha
+			);
+			console.log(confirmation)
+			if (typeof window !== 'undefined') {
+				sessionStorage.setItem('phone', phone)
+				sessionStorage.setItem('confirmation', JSON.stringify(confirmation))
+				sessionStorage.setItem('name', name? name : '')
+
+			}
+			toast.success("otp sended successfully");
+			router.push('/otp')
+
+			/* toast.success("otp sended successfully");
+			dispatch(addUser(confirmation));
+			dispatch(addPhoneNumber(phone));
+			dispatch(changeStateFalse());
+			setOtpTime(40); */
+		} catch (error: any) {
+			switch (error.code) {
+				case "auth/too-many-requests":
+					toast.error("Too many requests. Please try again later.");
+					break;
+				case "auth/invalid-phone-number":
+					toast.error("The phone number is invalid.");
+					break;
+				case "auth/quota-exceeded":
+					toast.error("Quota exceeded");
+				default:
+					toast.error("Something went wrong. Please try again later.", error.code);
+					break;
+			}
+			recaptcha = "";
+			if (typeof window !== 'undefined') {
+				sessionStorage.setItem('phone', phone)
+			}
+			router.push('/otp')
+			console.log(error);
 		} finally {
-		  setIsButtonDisabled(false);
+			setIsButtonDisabled(false);
 		}
-	  };
-	
-	
+	};
+
+
 	return (
 		<Card
 			isBlurred
@@ -125,12 +136,12 @@ export default function Home() {
 							/>
 
 							<div className="text-mini inline-block w-[326px] pt-14">
-							We don’t share your number with anyone						
+								We don’t share your number with anyone
 							</div>
-							<Button color="success" 
-							disabled={isButtonDisabled}
-							className=" bg-lime-400 font-medium h-14 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black" // variant="shadow"
-							onClick={() =>  resendOTP() /* router.push('/otp') */}
+							<Button color="success"
+								disabled={isButtonDisabled}
+								className=" bg-lime-400 font-medium h-14 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black" // variant="shadow"
+								onClick={() => resendOTP() /* router.push('/otp') */}
 							>
 								Get OTP
 							</Button>

@@ -1,3 +1,5 @@
+'use client'
+
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
@@ -7,8 +9,10 @@ import { Navbar } from "@/components/navbar";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 import { Avatar } from "@nextui-org/react";
+import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'
 
-export const metadata: Metadata = {
+/* export const metadata: Metadata = {
 	title: {
 		default: siteConfig.name,
 		template: `%s - ${siteConfig.name}`,
@@ -23,26 +27,53 @@ export const metadata: Metadata = {
 		shortcut: "/favicon-16x16.png",
 		apple: "/apple-touch-icon.png",
 	},
-};
+}; */
 
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const pathname = usePathname();
+	const searchParams = useSearchParams()
+	var param = searchParams.get('name')
+
+	const renderLayout = () => {
+		// Check the current route and conditionally render the layout
+		if (pathname !== '/success') {
+			return <div className="flex flex-col items-center align-middle justify-center pt-10">
+
+				<Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+					radius="full"
+					size="lg"
+					className="w-40 h-40 text-large align-middle" />
+				<div className="text-6xl   pt-2">
+					{param ? param : 'Tara'}
+				</div>
+				<div className=" text-medium">
+					What describes Tara best?
+				</div>
+			</div>
+		}
+		// Render the default layout for other pages
+		return <div></div>;
+	};
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head >
 
 			</head>
 			<body
-				style={{backgroundColor:'#F6F6F6'}}
+				style={{ backgroundColor: '#F6F6F6' }}
 				className={clsx(
 					"min-h-screen bg-background font-sans antialiased",
 					fontSans.variable
 				)}
 			>
-				<div className="flex flex-col items-center align-middle justify-center pt-10">
+				<div>
+					{renderLayout()}
+				</div>
+				{/* <div className="flex flex-col items-center align-middle justify-center pt-10">
 
 					<Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
 						radius="full"
@@ -54,7 +85,7 @@ export default function RootLayout({
 					<div className=" text-medium">
 						What describes Tara best?
 					</div>
-				</div>
+				</div> */}
 
 				<Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
 					<div className="relative flex flex-col">
