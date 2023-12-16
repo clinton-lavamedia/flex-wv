@@ -61,7 +61,7 @@ export default function Flex() {
 	return (
 		<div>
 
-			<div>
+<div className="flex flex-col mt-3 gap-1 ">
 				{flex.map((flex) =>
 					<Card id={flex.id.toString()}
 					onPress={() => setSelected(flex.id)}
@@ -73,7 +73,7 @@ export default function Flex() {
 						//className=" bg-white font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
 						>
 						<CardBody>
-							<p className="text-6xl inline-block w-[326px]  pt-2">{flex.name}</p>
+							<p className="text-6xl mr-14 ml-14 pt-2">{flex.name}</p>
 						</CardBody>
 					</Card>
 

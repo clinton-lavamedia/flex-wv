@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import './otpInputs.css';
 import { PhoneAuthProvider, signInWithCredential,RecaptchaVerifier,signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../src/lib/clientApp";
-import toast from "react-hot-toast";
+import toast,{ Toaster } from "react-hot-toast";
 
 export default function OTP() {
     const router = useRouter()
@@ -124,7 +124,7 @@ export default function OTP() {
             sessionStorage.setItem('userid', loggedIn.user.uid)
             //const origin=request.headers.get("origin")
 
-            fetch('http://13.126.83.192 /auth/login', {
+            fetch('http://13.126.83.192/auth/login', {
                 method: 'POST',
                 headers: {
 
@@ -279,6 +279,7 @@ export default function OTP() {
 
                 </div>
             </CardBody>
+            <Toaster />
         </Card>
     );
 }

@@ -11,7 +11,7 @@ import { Card, CardBody, Input, Button, Slider } from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 import { getRedirectResult, signInWithRedirect ,RecaptchaVerifier,signInWithPhoneNumber} from "firebase/auth";
 import { auth } from "./src/lib/clientApp";
-import toast from "react-hot-toast";
+import toast,{ Toaster } from "react-hot-toast";
 
 import { useEffect, useState } from "react";
 export default function Home() {
@@ -65,8 +65,10 @@ export default function Home() {
 			case "auth/invalid-phone-number":
 			  toast.error("The phone number is invalid.");
 			  break;
+			  case"auth/quota-exceeded":
+			  toast.error("Quota exceeded");
 			default:
-			  toast.error("Something went wrong. Please try again later.");
+			  toast.error("Something went wrong. Please try again later.",error.code);
 			  break;
 		  }
 		  recaptcha = "";
@@ -137,6 +139,7 @@ export default function Home() {
 
 					</div>
 				</div>
+				<Toaster />
 			</CardBody>
 		</Card>
 	);
