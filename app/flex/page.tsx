@@ -44,7 +44,7 @@ export default function Flex() {
         }
     }, []);
 	const handleSubmit = () => {
-		const scriptUrl = 'https://script.google.com/macros/s/AKfycbxruIeLHmpR8eYWwOWDp7JGt4Mm04crZFmlbBoovYuiA4R08IaGr3x4Q10TAQQ9DGV9/exec'
+		const scriptUrl = 'https://script.google.com/macros/s/AKfycbx-qAgan8f2eFFL8Qj-HybhnDsLYivuYVt2pNpnuFa0mOeaTRM9XGmBmVlL6XQs8xE1/exec'
 		var data={
 			name:'',
 			phone:phone,
@@ -53,7 +53,7 @@ export default function Flex() {
 		}
 		fetch(scriptUrl, {method: 'POST',mode: 'no-cors', body: JSON.stringify(data)})
         .then(res => {
-            console.log("SUCCESSFULLY SUBMITTED")
+            console.log("SUCCESSFULLY SUBMITTED",res)
         })
         .catch(err => console.log(err))
 	}
