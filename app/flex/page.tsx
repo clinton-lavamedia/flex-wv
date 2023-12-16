@@ -88,7 +88,7 @@ export default function Flex() {
 			firebaseid: '',
 			vote: flex[selected-1].name
 		};
-		fetch('https://hooks.slack.com/services/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', {
+		fetch('https://hooks.slack.com/services/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', {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
