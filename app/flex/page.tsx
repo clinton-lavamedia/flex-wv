@@ -7,8 +7,9 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 
 import data from './google.json'
+//https://docs.google.com/spreadsheets/d/1p8jyvPb1Pp4r-E-yTft1ZKqks5rXjfKVnvuKyHXobDM/edit#gid=0
 //https://docs.google.com/spreadsheets/d/1MH5aI6_c9QBrIR2kvZZhyZplHKmF4cjU4B7yuaSEilI/edit#gid=0// Config variables
-const SPREADSHEET_ID = '1MH5aI6_c9QBrIR2kvZZhyZplHKmF4cjU4B7yuaSEilI';
+const SPREADSHEET_ID = '1p8jyvPb1Pp4r-E-yTft1ZKqks5rXjfKVnvuKyHXobDM';
 const SHEET_ID = 0;
 const GOOGLE_CLIENT_EMAIL = data.client_email;
 const GOOGLE_SERVICE_PRIVATE_KEY = data.private_key.replace(/\\n/g, '\n');
@@ -74,7 +75,7 @@ export default function Flex() {
 				toast.error("something wrong try to again send otp");
 				return;
 			}
-			setPhone(phone)
+			setPhone('123')
 			setName(name ? name : '')
 			console.log(phone, name)
 		}
@@ -87,7 +88,25 @@ export default function Flex() {
 			firebaseid: '',
 			vote: flex[selected-1].name
 		};
+		fetch('https://hooks.slack.com/services/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', {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify({ text: flex[selected-1].name }),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				sessionStorage.setItem('token', data)
 
+				router.push('/success')
+			})
+			.catch((error) => {
+				console.error(error);
+
+
+			});
 		appendSpreadsheet(newRow);
 		router.push('/success')
 	}
@@ -100,9 +119,9 @@ export default function Flex() {
 						onPress={() => setSelected(flex.id)}
 						isBlurred
 						isPressable
-						className={flex.id == selected ? "bg-lime-400 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
+						className={flex.id == selected ? "bg-lime-400  rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
 							:
-							"bg-white font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"}
+							"bg-white  rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"}
 					//className=" bg-white font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
 					>
 						<CardBody>
