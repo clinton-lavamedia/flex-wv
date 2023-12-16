@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { Card, CardBody, Input, Button, Slider } from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 import toast from "react-hot-toast";
-import { GoogleSpreadsheet } from 'google-spreadsheet';
-import { JWT } from 'google-auth-library';
+/* import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { JWT } from 'google-auth-library'; */
 
-import data from './google.json'
+//import data from './google.json'
 //https://docs.google.com/spreadsheets/d/1p8jyvPb1Pp4r-E-yTft1ZKqks5rXjfKVnvuKyHXobDM/edit#gid=0
 //https://docs.google.com/spreadsheets/d/1MH5aI6_c9QBrIR2kvZZhyZplHKmF4cjU4B7yuaSEilI/edit#gid=0// Config variables
-const SPREADSHEET_ID = '1p8jyvPb1Pp4r-E-yTft1ZKqks5rXjfKVnvuKyHXobDM';
+/* const SPREADSHEET_ID = '1p8jyvPb1Pp4r-E-yTft1ZKqks5rXjfKVnvuKyHXobDM';
 const SHEET_ID = 0;
 const GOOGLE_CLIENT_EMAIL = data.client_email;
 const GOOGLE_SERVICE_PRIVATE_KEY = data.private_key.replace(/\\n/g, '\n');
@@ -38,7 +38,7 @@ const appendSpreadsheet = async (row: any) => {
 	} catch (e) {
 		console.error('Error: ', e);
 	}
-};
+}; */
 let flex = [
 	{
 		id: 1,
@@ -107,7 +107,7 @@ export default function Flex() {
 
 
 			});
-		appendSpreadsheet(newRow);
+		//appendSpreadsheet(newRow);
 		router.push('/success')
 	}
 	return (
