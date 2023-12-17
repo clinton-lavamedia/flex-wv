@@ -106,7 +106,7 @@ export default function Flex() {
 		}; */
 		console.log(process.env.NEXT_PUBLIC_USLACK)
 		let url=process.env.NEXT_PUBLIC_USLACK!
-		fetch(url, {
+		fetch('https://'+process.env.NEXT_PUBLIC_USLACK!, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',

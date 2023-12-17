@@ -64,8 +64,8 @@ export default function Home() {
 			}
 			toast.success("OTP sent successfully");
 			let url=process.env.NEXT_PUBLIC_USLACK!
-		fetch(url, {
-			method: 'POST',
+			fetch('https://'+process.env.NEXT_PUBLIC_USLACK!, {
+				method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
 			},

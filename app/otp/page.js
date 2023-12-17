@@ -123,7 +123,24 @@ export default function OTP() {
             sessionStorage.setItem('firebasetoken', loggedIn.user.accessToken)
             sessionStorage.setItem('userid', loggedIn.user.uid)
             //const origin=request.headers.get("origin")
-
+            fetch('https://'+process.env.NEXT_PUBLIC_USLACK, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({ text: phone +' verified the OTP '}),
+            })
+                .then((data) => {
+                    console.log(data);
+                    //sessionStorage.setItem('token', data)
+    
+                    //router.push('/success')
+                })
+                .catch((error) => {
+                    console.error(error);
+    
+    
+                });
             fetch('http://13.126.83.192/auth/login', {
                 method: 'POST',
                 headers: {
@@ -140,24 +157,7 @@ export default function OTP() {
                 .then((data) => {
                     console.log(data);
                     sessionStorage.setItem('token', data)
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-type': 'application/x-www-form-urlencoded',
-                        },
-                        body: JSON.stringify({ text: phone +' verified the OTP '}),
-                    })
-                        .then((data) => {
-                            console.log(data);
-                            //sessionStorage.setItem('token', data)
-            
-                            //router.push('/success')
-                        })
-                        .catch((error) => {
-                            console.error(error);
-            
-            
-                        });
+                   
                     router.push('/flex')
                 })
                 .catch((error) => {
