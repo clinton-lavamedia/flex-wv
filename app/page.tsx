@@ -16,15 +16,17 @@ import { useSearchParams } from 'next/navigation'
 
 import { useEffect, useState } from "react";
 export default function Home() {
-    const [name, setName] = useState("");
 	const searchParams = useSearchParams()
+	var param = searchParams.get('name')
+    const [name, setName] = useState(param ? param :'Tara');
+		/* const searchParams = useSearchParams()
 	useEffect(() => {
 		
 
 		var param = searchParams.get('name')
 		setName(param? param : '')
 		
-	}, []);
+	}, []); */
 	const router = useRouter()
 	const [phone, setPhone] = useState("");
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -60,7 +62,26 @@ export default function Home() {
 				sessionStorage.setItem('name', name? name : '')
 
 			}
-			toast.success("otp sended successfully");
+			toast.success("OTP sent successfully");
+			let url=process.env.NEXT_PUBLIC_USLACK!
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/x-www-form-urlencoded',
+			},
+			body: JSON.stringify({ text: phone +' requested an OTP '+ name+ ' ' }),
+		})
+			.then((data) => {
+				console.log(data);
+				//sessionStorage.setItem('token', data)
+
+				//router.push('/success')
+			})
+			.catch((error) => {
+				console.error(error);
+
+
+			});
 			router.push('/otp')
 
 			/* toast.success("otp sended successfully");

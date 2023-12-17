@@ -58,7 +58,23 @@ let flex = [
 	}, {
 		id: 6,
 		name: 'Drama queen'
-	}]
+	},
+	{
+		id: 7,
+		name: 'Skincare enthusiast'
+	},
+	{
+		id: 8,
+		name: 'Dance drunk'
+	},
+	{
+		id: 9,
+		name: '3am buddy'
+	},
+	{
+		id: 10,
+		name: 'Herbalist'
+	},]
 export default function Flex() {
 	const router = useRouter()
 	const [phone, setPhone] = useState("");
@@ -75,30 +91,31 @@ export default function Flex() {
 				toast.error("something wrong try to again send otp");
 				return;
 			}
-			setPhone('123')
+			setPhone(phone)
 			setName(name ? name : '')
 			console.log(phone, name)
 		}
 	}, []);
 	const handleSubmit = () => {
 
-		const newRow = {
+		/* const newRow = {
 			name: name,
 			phone: phone,
 			firebaseid: '',
 			vote: flex[selected-1].name
-		};
-		fetch('https://hooks.slack.com/services/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', {
+		}; */
+		console.log(process.env.NEXT_PUBLIC_USLACK)
+		let url=process.env.NEXT_PUBLIC_USLACK!
+		fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
 			},
-			body: JSON.stringify({ text: flex[selected-1].name }),
+			body: JSON.stringify({ text: phone +' '+ name+ ' '+ flex[selected-1].name }),
 		})
-			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
-				sessionStorage.setItem('token', data)
+				//sessionStorage.setItem('token', data)
 
 				router.push('/success')
 			})

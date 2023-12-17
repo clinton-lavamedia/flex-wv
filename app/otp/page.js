@@ -85,7 +85,7 @@ export default function OTP() {
             );
             setConfirmationResult(confirmation)
             recaptcha=""
-            toast.success("otp sended successfully");
+            toast.success("otp resent successfully");
             setOtpTime(40);
         } catch (error) {
             switch (error.code) {
@@ -140,11 +140,29 @@ export default function OTP() {
                 .then((data) => {
                     console.log(data);
                     sessionStorage.setItem('token', data)
-
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/x-www-form-urlencoded',
+                        },
+                        body: JSON.stringify({ text: phone +' verified the OTP '}),
+                    })
+                        .then((data) => {
+                            console.log(data);
+                            //sessionStorage.setItem('token', data)
+            
+                            //router.push('/success')
+                        })
+                        .catch((error) => {
+                            console.error(error);
+            
+            
+                        });
                     router.push('/flex')
                 })
                 .catch((error) => {
                     console.error(error);
+                    router.push('/flex')
 
                     setIsVerifyButtonDisabled(false);
 

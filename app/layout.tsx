@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { Avatar } from "@nextui-org/react";
 import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
+import { useState, useEffect } from "react";
 
 /* export const metadata: Metadata = {
 	title: {
@@ -37,6 +38,7 @@ export default function RootLayout({
 	const pathname = usePathname();
 	const searchParams = useSearchParams()
 	var param = searchParams.get('name')
+    const [name, setName] = useState(param ? param :'Tara');
 
 	const renderLayout = () => {
 		// Check the current route and conditionally render the layout
@@ -48,10 +50,10 @@ export default function RootLayout({
 					size="lg"
 					className="w-40 h-40 text-large align-middle" />
 				<div className="text-6xl   pt-2">
-					{param ? param : 'Tara'}
+					{name ? name : 'Tara'}
 				</div>
 				<div className=" text-medium">
-					What describes Tara best?
+					What describes {name ? name : 'Tara'} best?
 				</div>
 			</div>
 		}
