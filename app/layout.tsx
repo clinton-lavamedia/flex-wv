@@ -49,10 +49,10 @@ export default function RootLayout({
 					radius="full"
 					size="lg"
 					className="w-40 h-40 text-large align-middle" />
-				<div className="text-6xl   pt-2">
+				{/* <div className="text-6xl   pt-2">
 					{name ? name : 'Tara'}
-				</div>
-				<div className=" text-medium">
+				</div> */}
+				<div className="text-6xl  pt-2 ">
 					What describes {name ? name : 'Tara'} best?
 				</div>
 			</div>
