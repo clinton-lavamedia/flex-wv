@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD7yQyv2GcZEJojCMWuY13B2SD6uuxP6ps",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE,
   authDomain: "heyo-prod.firebaseapp.com",
   projectId: "heyo-prod",
   storageBucket: "heyo-prod.appspot.com",
