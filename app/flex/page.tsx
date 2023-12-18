@@ -111,7 +111,7 @@ export default function Flex() {
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
 			},
-			body: JSON.stringify({ text: phone +' '+ name+ ' '+ flex[selected-1].name }),
+			body: JSON.stringify({ text: phone +' flexed on '+ name+ ' : '+ flex[selected-1].name }),
 		})
 			.then((data) => {
 				console.log(data);
@@ -133,12 +133,13 @@ export default function Flex() {
 			<div className="flex flex-col mt-3 gap-1 ">
 				{flex.map((flex) =>
 					<Card id={flex.id.toString()}
+					isPressable
 						onPress={() => setSelected(flex.id)}
 						isBlurred
-						isPressable
-						className={flex.id == selected ? "bg-lime-400  rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
+						
+						className={flex.id == selected ? "bg-lime-400  rounded-[10px]  shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
 							:
-							"bg-white  rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"}
+							"bg-white  rounded-[10px] shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"}
 					//className=" bg-white font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black mb-2"
 					>
 						<CardBody>

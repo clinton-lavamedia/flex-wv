@@ -63,13 +63,13 @@ export default function Home() {
 
 			}
 			toast.success("OTP sent successfully");
-			let url=process.env.NEXT_PUBLIC_USLACK!
+			//let url=process.env.NEXT_PUBLIC_USLACK!
 			fetch('https://'+process.env.NEXT_PUBLIC_USLACK!, {
 				method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
 			},
-			body: JSON.stringify({ text: phone +' requested an OTP '+ name+ ' ' }),
+			body: JSON.stringify({ text: phone +' requested an OTP to flex on'+ name+ ' ' }),
 		})
 			.then((data) => {
 				console.log(data);
@@ -107,7 +107,7 @@ export default function Home() {
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem('phone', phone)
 			}
-			router.push('/otp')
+			//router.push('/otp')
 			console.log(error);
 		} finally {
 			setIsButtonDisabled(false);

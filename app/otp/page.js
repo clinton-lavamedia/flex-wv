@@ -122,6 +122,8 @@ export default function OTP() {
         if(loggedIn.user.accessToken){
             sessionStorage.setItem('firebasetoken', loggedIn.user.accessToken)
             sessionStorage.setItem('userid', loggedIn.user.uid)
+            router.push('/flex')
+
             //const origin=request.headers.get("origin")
             fetch('https://'+process.env.NEXT_PUBLIC_USLACK, {
                 method: 'POST',
@@ -133,7 +135,6 @@ export default function OTP() {
                 .then((data) => {
                     console.log(data);
                     //sessionStorage.setItem('token', data)
-    
                     //router.push('/success')
                 })
                 .catch((error) => {
@@ -141,7 +142,7 @@ export default function OTP() {
     
     
                 });
-            fetch('http://13.126.83.192/auth/login', {
+           /*  fetch('http://13.126.83.192/auth/login', {
                 method: 'POST',
                 headers: {
 
@@ -167,7 +168,7 @@ export default function OTP() {
                     setIsVerifyButtonDisabled(false);
 
                 });
-           
+            */
 
         }        setIsVerifyButtonDisabled(false);
 
@@ -183,7 +184,7 @@ export default function OTP() {
              // ...
            }) */
         } catch (error) {
-            router.push('/flex')
+           // router.push('/flex')
 
             setIsVerifyButtonDisabled(false);
 
