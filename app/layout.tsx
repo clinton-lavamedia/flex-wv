@@ -12,7 +12,9 @@ import { Avatar } from "@nextui-org/react";
 import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from "react";
-
+import Image from 'next/image'
+import logo from './logo.png'
+import monsters from './success/monsters.png'
 /* export const metadata: Metadata = {
 	title: {
 		default: siteConfig.name,
@@ -38,7 +40,7 @@ export default function RootLayout({
 	const pathname = usePathname();
 	const searchParams = useSearchParams()
 	var param = searchParams.get('name')
-    const [name, setName] = useState(param ? param :'Tara');
+	const [name, setName] = useState(param ? param : 'Tara');
 
 	const renderLayout = () => {
 		// Check the current route and conditionally render the layout
@@ -60,6 +62,34 @@ export default function RootLayout({
 		// Render the default layout for other pages
 		return <div></div>;
 	};
+	const renderFooter = () => {
+		// Check the current route and conditionally render the layout
+		if (pathname !== '/success') {
+			return <footer className="w-full flex items-center justify-center py-3" 
+			>
+				<Image
+					src={logo}
+					// width={500}
+					// height={500}
+					alt="Logo"
+				/>
+			</footer>
+		} else {
+			// Render the default layout for other pages
+			return <footer className="w-full flex items-center justify-center" 
+			style={{bottom:0,left:0}}>
+				<Image
+					src={monsters}
+					style={{
+						width: '100%'}}
+					// width={500}
+					// height={500}
+					alt="Monsters"
+				/>
+			</footer>
+		}
+
+	};
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head >
@@ -68,13 +98,13 @@ export default function RootLayout({
 			<body
 				style={{ backgroundColor: '#F6F6F6' }}
 				className={clsx(
-					"min-h-screen bg-background font-sans antialiased",
+					"min-h-screen bg-background font-sans antialiased h-full",
 					fontSans.variable
 				)}
 			>
-				<div>
+				{/* <div>
 					{renderLayout()}
-				</div>
+				</div> */}
 				{/* <div className="flex flex-col items-center align-middle justify-center pt-10">
 
 					<Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
@@ -90,22 +120,15 @@ export default function RootLayout({
 				</div> */}
 
 				<Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-					<div className="relative flex flex-col">
+					<div className=" h-full flex flex-col">
 						{/* <Navbar /> */}
-						<main className="container  pt-2  mx-auto max-w-7xl px-6 flex-grow">
+						<main className="container flex-grow">
+
+							{/* 						<main className="container  pt-2  mx-auto max-w-7xl px-6 flex-grow">
+ */}
 							{children}
 						</main>
-						<footer className="w-full flex items-center justify-center py-3">
-							<Link
-								isExternal
-								className="flex items-center gap-1 text-current"
-								href=""
-								title="Heyo"
-							>
-								<span className="text-default-600">Powered by</span>
-								<p className="text-primary">Heyo</p>
-							</Link>
-						</footer>
+						{renderFooter()}
 						<div id="recaptcha"></div>
 
 					</div>
