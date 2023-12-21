@@ -84,7 +84,7 @@ export default function Flex() {
 	const [name, setName] = useState(param ? param : 'Tara');
 
 	const [selected, setSelected] = useState(0);
-	useEffect(() => {
+	/* useEffect(() => {
 		if (window) {
 			// set props data to session storage or local storage  
 			const phone = window.sessionStorage.getItem('phone')
@@ -98,7 +98,7 @@ export default function Flex() {
 			//setName(name ? name : '')
 			console.log(phone, name)
 		}
-	}, []);
+	}, []); */
 	const handleSubmit = () => {
 
 		/* const newRow = {
