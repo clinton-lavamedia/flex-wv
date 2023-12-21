@@ -126,12 +126,10 @@ export default function RootLayout({
 						{/* <Navbar /> */}
 
 						<main className="container flex-grow">
-						<Suspense fallback={<p>Loading feed...</p>}>
 
 							{/* 						<main className="container  pt-2  mx-auto max-w-7xl px-6 flex-grow">
  */}
 							{children}
-							</Suspense>
 						</main>
 						{renderFooter()}
 						<div id="recaptcha"></div>
