@@ -14,6 +14,8 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from "react";
 import Image from 'next/image'
 import logo from './logo.png'
+import { Suspense } from 'react'
+
 import monsters from './success/monsters.png'
 /* export const metadata: Metadata = {
 	title: {
@@ -122,11 +124,14 @@ export default function RootLayout({
 				<Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
 					<div className=" h-full flex flex-col">
 						{/* <Navbar /> */}
+
 						<main className="container flex-grow">
+						<Suspense fallback={<p>Loading feed...</p>}>
 
 							{/* 						<main className="container  pt-2  mx-auto max-w-7xl px-6 flex-grow">
  */}
 							{children}
+							</Suspense>
 						</main>
 						{renderFooter()}
 						<div id="recaptcha"></div>

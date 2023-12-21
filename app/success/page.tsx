@@ -58,7 +58,7 @@ export default function Success() {
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({ text: phone + ' is using : ' + (isAndroid ? 'android' : 'iOS') }),
+      body: JSON.stringify({ text: phone + ' is using : Android:' + isAndroid  }),
     })
       .then((data) => {
         console.log(data,isAndroid);
