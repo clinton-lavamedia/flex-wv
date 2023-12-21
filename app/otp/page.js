@@ -230,9 +230,9 @@ export default function OTP() {
     function getImage(name){
 		switch (name.toLowerCase()){
 			case "vaishnavi":
-				return process.env.NEXT_PUBLIC_VASINAVI;
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_VASINAVI;
 			case "riya":
-				return process.env.NEXT_PUBLIC_RIYA;
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_RIYA;
 				default:
 					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
 		}
