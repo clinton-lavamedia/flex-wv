@@ -13,12 +13,15 @@ import { getRedirectResult, signInWithRedirect, RecaptchaVerifier, signInWithPho
 import { auth } from "../src/lib/clientApp";
 import toast, { Toaster } from "react-hot-toast";
 import { useSearchParams } from 'next/navigation'
+import { Bars } from 'react-loader-spinner'
 
 import { useEffect, useState } from "react";
 export default function Home() {
 	const searchParams = useSearchParams()
 	var param = searchParams.get('name')
 	const [name, setName] = useState(param ? param : 'Tara');
+	const [isLoading, setLoading] = useState(false);
+
 	/* const searchParams = useSearchParams()
 useEffect(() => {
 	
@@ -32,11 +35,13 @@ useEffect(() => {
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 	const resendOTP = async () => {
+		setLoading(true)
+
 		console.log('sending otp')
-		if (phone == null) {
+		/* if (phone == null) {
 			// toast.error("something wrong try to again send otp");
 			return;
-		}
+		} */
 		var recaptcha;
 
 		/* if (isButtonDisabled) {
@@ -45,7 +50,10 @@ useEffect(() => {
 
 		try {
 			setIsButtonDisabled(true);
-
+			const recaptchaParent = document.getElementById("recaptcha-container");
+			if (recaptchaParent) {
+				recaptchaParent.innerHTML = "<div id='recaptcha'></div>";
+			}
 			const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {
 				size: "invisible",
 			});
@@ -55,6 +63,7 @@ useEffect(() => {
 				"+91" + phone,
 				recaptcha
 			);
+			recaptcha.clear()
 			console.log(confirmation)
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem('phone', phone)
@@ -72,17 +81,21 @@ useEffect(() => {
 				body: JSON.stringify({ text: phone + ' requested an OTP to flex on : ' + name + ' ' }),
 			})
 				.then((data) => {
+					setLoading(false)
+
 					console.log(data);
 					//sessionStorage.setItem('token', data)
 
 					//router.push('/success')
 				})
 				.catch((error) => {
+					setLoading(false)
+
 					console.error(error);
 
 
 				});
-			router.push('/otp?name='+name)
+			router.push('/otp?name=' + name)
 
 			/* toast.success("otp sended successfully");
 			dispatch(addUser(confirmation));
@@ -90,6 +103,8 @@ useEffect(() => {
 			dispatch(changeStateFalse());
 			setOtpTime(40); */
 		} catch (error: any) {
+			setLoading(false)
+
 			switch (error.code) {
 				case "auth/too-many-requests":
 					toast.error("Too many requests. Please try again later.");
@@ -107,28 +122,53 @@ useEffect(() => {
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem('phone', phone)
 			}
+			router.push('/mobile?name=' + name)
+
 			//router.push('/otp')
 			console.log(error);
 		} finally {
+			setLoading(false)
+
 			setIsButtonDisabled(false);
 		}
 	};
-
+	function getImage(name: any){
+		switch (name.toLowerCase()){
+			case "vaishnavi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/vaishnavi.jpeg";
+			case "riya":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/riya.jpeg";
+				default:
+					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+		}
+	}
+	var camalize = function camalize(str: string) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
 
 	return (
 		<div>
 			<div className="flex flex-col items-center align-middle justify-center pt-10">
 
-				<Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+			<Avatar src={getImage(name)}
 					radius="full"
 					size="lg"
 					className="w-40 h-40 text-large align-middle" />
 				<div className="text-6xl   pt-2">
-					{name ? name : 'Tara'}
+					{name ? camalize(name) : 'Tara'}
 				</div>
 				<div className=" text-mini  pt-2 pb-2">
 					Verify your number to make your vote count
 				</div>
+				<Bars
+					height="80"
+					width="80"
+					color="#4fa94d"
+					ariaLabel="bars-loading"
+					wrapperStyle={{}}
+					wrapperClass=""
+					visible={isLoading}
+				/>
 			</div>
 			<Card
 				isBlurred
@@ -174,8 +214,12 @@ useEffect(() => {
 									We don’t share your number with anyone
 								</div>
 								<Button color="success"
-									disabled={isButtonDisabled}
-									className=" bg-lime-400 font-medium h-14 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black" // variant="shadow"
+									disabled={isLoading}
+									className={!isLoading ? "  bg-lime-400 flex  h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
+										:
+										"  bg-gray-400 flex h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
+									}
+									//className=" bg-lime-400 font-medium h-14 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black" // variant="shadow"
 									onClick={() => resendOTP() /* router.push('/otp') */}
 								>
 									Get OTP

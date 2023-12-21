@@ -9,6 +9,7 @@ import { PhoneAuthProvider, signInWithCredential, RecaptchaVerifier, signInWithP
 import { auth } from "../src/lib/clientApp";
 import toast, { Toaster } from "react-hot-toast";
 import { useSearchParams } from 'next/navigation'
+import { Bars } from 'react-loader-spinner'
 
 export default function OTP() {
     const router = useRouter()
@@ -20,6 +21,7 @@ export default function OTP() {
 
     var param = searchParams.get('name')
     const [name, setName] = useState(param ? param : 'Tara');
+	const [isLoading, setLoading] = useState(false);
 
     const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -67,6 +69,8 @@ export default function OTP() {
         }));
     };
     const resendOTP = async () => {
+        setLoading(true)
+
         if (phone == null) {
             router.push('/')
             toast.error("something wrong try to again send otp");
@@ -79,6 +83,10 @@ export default function OTP() {
 
         try {
             setIsButtonDisabled(true);
+            const recaptchaParent = document.getElementById("recaptcha-container");
+			if (recaptchaParent) {
+				recaptchaParent.innerHTML = "<div id='recaptcha'></div>";
+			}
             recaptcha = new RecaptchaVerifier(auth, "recaptcha", {
                 size: "invisible",
             });
@@ -92,7 +100,11 @@ export default function OTP() {
             recaptcha = ""
             toast.success("otp resent successfully");
             setOtpTime(40);
+            setLoading(false)
+
         } catch (error) {
+            setLoading(false)
+
             switch (error.code) {
                 case "auth/too-many-requests":
                     toast.error("Too many requests. Please try again later.");
@@ -106,6 +118,8 @@ export default function OTP() {
             }
             console.log(error);
         } finally {
+            setLoading(false)
+
             setIsButtonDisabled(false);
         }
     };
@@ -115,6 +129,8 @@ export default function OTP() {
         /*   if (isVerifyButtonDisabled) {
               return;
           } */
+          setLoading(true)
+
         setIsVerifyButtonDisabled(true);
 
         console.log('submitting', Number(inputValues.input1 + inputValues.input2 + inputValues.input3 + inputValues.input4 + inputValues.input5 + inputValues.input6))
@@ -139,13 +155,14 @@ export default function OTP() {
                 })
                     .then((data) => {
                         console.log(data);
+                        setLoading(false)
+
                         //sessionStorage.setItem('token', data)
                         router.push('/success?name='+name)
                     })
                     .catch((error) => {
+                        setLoading(false)
                         console.error(error);
-
-
                     });
                 /*  fetch('http://13.126.83.192/auth/login', {
                      method: 'POST',
@@ -190,7 +207,7 @@ export default function OTP() {
                }) */
         } catch (error) {
             // router.push('/flex')
-
+            setLoading(false)
             setIsVerifyButtonDisabled(false);
 
             switch (error.code) {
@@ -206,20 +223,34 @@ export default function OTP() {
             }
             console.log(error);
         } finally {
+            setLoading(false)
             setIsVerifyButtonDisabled(false);
         }
     };
+    function getImage(name){
+		switch (name.toLowerCase()){
+			case "vaishnavi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/vaishnavi.jpeg";
+			case "riya":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/riya.jpeg";
+				default:
+					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+		}
+	}
+	var camalize = function camalize(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
     return (
         <div>
             <div className="flex flex-col items-center align-middle justify-center pt-10">
 
-                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-                    radius="full"
-                    size="lg"
-                    className="w-40 h-40 text-large align-middle" />
-                <div className="text-6xl   pt-2">
-                    {name ? name : 'Tara'}
-                </div>
+            <Avatar src={getImage(name)}
+					radius="full"
+					size="lg"
+					className="w-40 h-40 text-large align-middle" />
+				<div className="text-6xl   pt-2">
+					{name ? camalize(name) : 'Tara'}
+				</div>
 				<div className=" text-mini  pt-2 pb-2">
                     Verify your number to make your vote count
                 </div>

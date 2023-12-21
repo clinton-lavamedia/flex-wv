@@ -77,6 +77,9 @@ export default function Success() {
       });
 
   }
+  var camalize = function camalize(str: string) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
   return (
     <div className="flex flex-col items-center align-middle justify-center pt-10">
       {otpTime > 0 ?
@@ -88,7 +91,7 @@ export default function Success() {
             size="lg"
             className="w-40 h-40 text-large align-middle" />
           <div className="text-6xl   pt-2">
-            {name ? name : 'Tara'}
+					{name ? camalize(name) : 'Tara'}
           </div>
           <div className=" text-lg pt-32">
             Great!

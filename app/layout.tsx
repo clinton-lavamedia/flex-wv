@@ -132,7 +132,10 @@ export default function RootLayout({
 							{children}
 						</main>
 						{renderFooter()}
+						<div id="recaptcha-container">
 						<div id="recaptcha"></div>
+
+						</div>
 
 					</div>
 				</Providers>

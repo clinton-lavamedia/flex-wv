@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 /* import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library'; */
 import { useSearchParams } from 'next/navigation'
+import { Bars } from 'react-loader-spinner'
 
 //import data from './google.json'
 //https://docs.google.com/spreadsheets/d/1p8jyvPb1Pp4r-E-yTft1ZKqks5rXjfKVnvuKyHXobDM/edit#gid=0
@@ -82,6 +83,7 @@ export default function Flex() {
 	const searchParams = useSearchParams()
 	var param = searchParams.get('name')
 	const [name, setName] = useState(param ? param : 'Tara');
+	const [isLoading, setLoading] = useState(false);
 
 	const [selected, setSelected] = useState(0);
 	/* useEffect(() => {
@@ -107,21 +109,25 @@ export default function Flex() {
 			firebaseid: '',
 			vote: flex[selected-1].name
 		}; */
+		setLoading(true)
 		console.log(process.env.NEXT_PUBLIC_USLACK)
 		fetch('https://' + process.env.NEXT_PUBLIC_USLACK!, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
 			},
-			body: JSON.stringify({ text:( phone ? phone : 'Someone') + ' flexed on ' + name + ' : ' + flex[selected - 1].name }),
+			body: JSON.stringify({ text: (phone ? phone : 'Someone') + ' flexed on ' + name + ' : ' + flex[selected - 1].name }),
 		})
 			.then((data) => {
 				console.log(data);
 				//sessionStorage.setItem('token', data)
+				setLoading(false)
 
-				router.push('/mobile?name='+name)
+				router.push('/mobile?name=' + name)
 			})
 			.catch((error) => {
+				setLoading(false)
+
 				console.error(error);
 
 
@@ -129,21 +135,44 @@ export default function Flex() {
 		//appendSpreadsheet(newRow);
 		//router.push('/success')
 	}
+	function getImage(name: any){
+		switch (name.toLowerCase()){
+			case "vaishnavi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/vaishnavi.jpeg";
+			case "riya":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/riya.jpeg";
+				default:
+					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+		}
+	}
+	var camalize = function camalize(str: string) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
 	return (
 		<div>
 			<div className="flex flex-col items-center align-middle justify-center pt-10 ">
 
-				<Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+				<Avatar src={getImage(name)}
 					radius="full"
 					size="lg"
 					className="w-40 h-40 text-large align-middle" />
 				<div className="text-6xl   pt-2">
-					{name ? name : 'Tara'}
+					{name ? camalize(name) : 'Tara'}
 				</div>
 				<div className=" text-mini  pt-2 pb-2">
-					What describes {name ? name : 'Tara'} best?
+					What describes {name ? camalize(name) : 'Tara'} best?
 				</div>
+				<Bars
+					height="80"
+					width="80"
+					color="#4fa94d"
+					ariaLabel="bars-loading"
+					wrapperStyle={{}}
+					wrapperClass=""
+					visible={isLoading}
+				/>
 			</div>
+
 			<div className="flex flex-col mt-3 gap-1 px-unit-sm ">
 				{flex.map((flex) =>
 					<Card id={flex.id.toString()}
@@ -168,9 +197,9 @@ export default function Flex() {
 
 					isDisabled={selected ? false : true}
 					onClick={handleSubmit}
-					className={selected ? " bg-lime-400 flex w-40 h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
+					className={selected ? "fixed z-90 bottom-10  bg-lime-400 flex w-40 h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
 						:
-						" bg-gray-400 flex h-14 font-medium w-40 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
+						" fixed z-90 bottom-10 bg-gray-400 flex h-14 font-medium w-40 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
 					}
 				// variant="shadow"
 				>
