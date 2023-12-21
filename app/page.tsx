@@ -113,7 +113,7 @@ export default function Flex() {
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded',
 			},
-			body: JSON.stringify({ text: phone ? phone : 'Someone' + ' flexed on ' + name + ' : ' + flex[selected - 1].name }),
+			body: JSON.stringify({ text:( phone ? phone : 'Someone') + ' flexed on ' + name + ' : ' + flex[selected - 1].name }),
 		})
 			.then((data) => {
 				console.log(data);

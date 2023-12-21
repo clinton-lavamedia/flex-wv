@@ -59,7 +59,7 @@ useEffect(() => {
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem('phone', phone)
 				sessionStorage.setItem('confirmation', JSON.stringify(confirmation))
-				sessionStorage.setItem('name', name ? name : '')
+				//sessionStorage.setItem('name', name ? name : '')
 
 			}
 			toast.success("OTP sent successfully");
