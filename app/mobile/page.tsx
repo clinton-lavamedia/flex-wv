@@ -135,9 +135,9 @@ useEffect(() => {
 	function getImage(name: any){
 		switch (name.toLowerCase()){
 			case "vaishnavi":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/vaishnavi.jpeg";
+				return process.env.NEXT_PUBLIC_VASINAVI;
 			case "riya":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/riya.jpeg";
+				return process.env.NEXT_PUBLIC_RIYA;
 				default:
 					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
 		}

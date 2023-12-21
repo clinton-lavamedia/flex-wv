@@ -77,6 +77,16 @@ export default function Success() {
       });
 
   }
+  function getImage(name: any){
+		switch (name.toLowerCase()){
+			case "vaishnavi":
+				return process.env.NEXT_PUBLIC_VASINAVI;
+			case "riya":
+				return process.env.NEXT_PUBLIC_RIYA;
+				default:
+					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+		}
+	}
   var camalize = function camalize(str: string) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -86,7 +96,7 @@ export default function Success() {
 
         <div className="flex flex-col items-center align-middle justify-center pt-10">
 
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+          <Avatar src={getImage(name)}
             radius="full"
             size="lg"
             className="w-40 h-40 text-large align-middle" />
