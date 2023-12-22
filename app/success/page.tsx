@@ -78,13 +78,17 @@ export default function Success() {
 
   }
   function getImage(name: any){
-		switch (name.toLowerCase()){
+    switch (name.toLowerCase()) {
 			case "vaishnavi":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_VASINAVI;
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_VASINAVI;
 			case "riya":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_RIYA;
-				default:
-					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_RIYA;
+			case "jenny":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_JENNY;
+			case "aashi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_AASHI;
+			default:
+				return "https://i.pravatar.cc/150?u=a04258114e29026708c"
 		}
 	}
   var camalize = function camalize(str: string) {

@@ -110,6 +110,9 @@ export default function Flex() {
 			vote: flex[selected-1].name
 		}; */
 		setLoading(true)
+		if (typeof window !== 'undefined') {
+			sessionStorage.setItem('flex', flex[selected - 1].name)
+		}
 		console.log(process.env.NEXT_PUBLIC_USLACK)
 		fetch('https://' + process.env.NEXT_PUBLIC_USLACK!, {
 			method: 'POST',
@@ -135,14 +138,18 @@ export default function Flex() {
 		//appendSpreadsheet(newRow);
 		//router.push('/success')
 	}
-	function getImage(name: any){
-		switch (name.toLowerCase()){
+	function getImage(name: any) {
+		switch (name.toLowerCase()) {
 			case "vaishnavi":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_VASINAVI;
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_VASINAVI;
 			case "riya":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_RIYA;
-				default:
-					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_RIYA;
+			case "jenny":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_JENNY;
+			case "aashi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_AASHI;
+			default:
+				return "https://i.pravatar.cc/150?u=a04258114e29026708c"
 		}
 	}
 	var camalize = function camalize(str: string) {

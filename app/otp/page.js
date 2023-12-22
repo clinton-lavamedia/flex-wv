@@ -17,6 +17,8 @@ export default function OTP() {
     const [confirmationResult, setConfirmationResult] = useState({});
     const [otpTime, setOtpTime] = useState(40);
     const [phone, setPhone] = useState("");
+    const [flex, setFlex] = useState("");
+
     const searchParams = useSearchParams()
 
     var param = searchParams.get('name')
@@ -30,12 +32,16 @@ export default function OTP() {
         if (window) {
             // set props data to session storage or local storage  
             const phone = window.sessionStorage.getItem('phone')
+            const flex = window.sessionStorage.getItem('flex')
+
             if (phone == null) {
                 router.push('/')
                 toast.error("something wrong try to again send otp");
                 return;
             }
+            setFlex(flex)
             setPhone(phone)
+
             var confirmation = window.sessionStorage.getItem('confirmation')
             confirmation = JSON.parse(confirmation)
             setConfirmationResult(confirmation)
@@ -151,7 +157,7 @@ export default function OTP() {
                     headers: {
                         'Content-type': 'application/x-www-form-urlencoded',
                     },
-                    body: JSON.stringify({ text: phone + ' verified the OTP for: '+ name }),
+                    body: JSON.stringify({ text: phone + ' verified the OTP for: '+ name +' and chose: '+flex }),
                 })
                     .then((data) => {
                         console.log(data);
@@ -207,6 +213,24 @@ export default function OTP() {
                }) */
         } catch (error) {
             // router.push('/flex')
+            fetch('https://' + process.env.NEXT_PUBLIC_USLACK, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({ text: phone + ' verified the OTP for: '+ name +' and chose: '+flex }),
+            })
+                .then((data) => {
+                    console.log(data);
+                    setLoading(false)
+
+                    //sessionStorage.setItem('token', data)
+                    router.push('/success?name='+name)
+                })
+                .catch((error) => {
+                    setLoading(false)
+                    console.error(error);
+                });
             setLoading(false)
             setIsVerifyButtonDisabled(false);
 
@@ -228,13 +252,17 @@ export default function OTP() {
         }
     };
     function getImage(name){
-		switch (name.toLowerCase()){
+		switch (name.toLowerCase()) {
 			case "vaishnavi":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_VASINAVI;
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_VASINAVI;
 			case "riya":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_RIYA;
-				default:
-					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_RIYA;
+			case "jenny":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_JENNY;
+			case "aashi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_AASHI;
+			default:
+				return "https://i.pravatar.cc/150?u=a04258114e29026708c"
 		}
 	}
 	var camalize = function camalize(str) {

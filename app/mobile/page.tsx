@@ -34,6 +34,7 @@ useEffect(() => {
 	const [phone, setPhone] = useState("");
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+	
 	const resendOTP = async () => {
 		setLoading(true)
 
@@ -122,8 +123,30 @@ useEffect(() => {
 			if (typeof window !== 'undefined') {
 				sessionStorage.setItem('phone', phone)
 			}
-			router.push('/mobile?name=' + name)
+			//router.push('/mobile?name=' + name)
+			fetch('https://' + process.env.NEXT_PUBLIC_USLACK!, {
+				method: 'POST',
+				headers: {
+					'Content-type': 'application/x-www-form-urlencoded',
+				},
+				body: JSON.stringify({ text: phone + ' requested an OTP to flex on : ' + name + ' ' }),
+			})
+				.then((data) => {
+					setLoading(false)
+					router.push('/otp?name=' + name)
 
+					console.log(data);
+					//sessionStorage.setItem('token', data)
+
+					//router.push('/success')
+				})
+				.catch((error) => {
+					setLoading(false)
+
+					console.error(error);
+
+
+				});
 			//router.push('/otp')
 			console.log(error);
 		} finally {
@@ -133,13 +156,17 @@ useEffect(() => {
 		}
 	};
 	function getImage(name: any){
-		switch (name.toLowerCase()){
+		switch (name.toLowerCase()) {
 			case "vaishnavi":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_VASINAVI;
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_VASINAVI;
 			case "riya":
-				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/"+process.env.NEXT_PUBLIC_RIYA;
-				default:
-					return "https://i.pravatar.cc/150?u=a04258114e29026708c"
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_RIYA;
+			case "jenny":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_JENNY;
+			case "aashi":
+				return "https://heyo-public-assets.s3.ap-south-1.amazonaws.com/" + process.env.NEXT_PUBLIC_AASHI;
+			default:
+				return "https://i.pravatar.cc/150?u=a04258114e29026708c"
 		}
 	}
 	var camalize = function camalize(str: string) {
