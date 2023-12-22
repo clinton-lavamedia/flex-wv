@@ -15,7 +15,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useSearchParams } from 'next/navigation'
 import { Bars } from 'react-loader-spinner'
 
-import { useEffect, useState } from "react";
+import React, { useRef, useState, useEffect } from 'react';
 export default function Home() {
 	const searchParams = useSearchParams()
 	var param = searchParams.get('name')
@@ -184,9 +184,9 @@ useEffect(() => {
 				<div className="text-6xl   pt-2">
 					{name ? camalize(name) : 'Tara'}
 				</div>
-				<div className=" text-mini  pt-2 pb-2">
+				{/* <div className=" text-mini  pt-2 pb-2">
 					Verify your number to make your vote count
-				</div>
+				</div> */}
 				<Bars
 					height="80"
 					width="80"
@@ -207,7 +207,7 @@ useEffect(() => {
 
 						<div className="flex flex-col col-span-6 md:col-span-8">
 							<div className="text-6xl inline-block w-[326px]  pt-2">
-								Enter your phone
+							Verify your number to make your vote count
 							</div>
 							<div className="flex flex-col mt-3 gap-1 ">
 								<Input
@@ -225,7 +225,7 @@ useEffect(() => {
 										],
 									}}
 									isRequired
-									type="tel"
+									type="number"
 									placeholder=" 0000000000"
 									onValueChange={setPhone}
 									value={phone}
@@ -241,10 +241,10 @@ useEffect(() => {
 									We don’t share your number with anyone
 								</div>
 								<Button color="success"
-									disabled={isLoading}
-									className={!isLoading ? "  bg-lime-400 flex  h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
+									disabled={isLoading || phone.length<9 }
+									className={(!isLoading && phone.length>9 )? "  bg-lime-400 flex  h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
 										:
-										"  bg-gray-400 flex h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
+										" bg-gray-300 flex h-14 font-medium rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black"
 									}
 									//className=" bg-lime-400 font-medium h-14 rounded-[10px] text-6xl shadow-[2px_2px_0px_#000] box-border border-[1px] border-solid border-black" // variant="shadow"
 									onClick={() => resendOTP() /* router.push('/otp') */}

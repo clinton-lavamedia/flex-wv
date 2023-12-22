@@ -10,7 +10,7 @@ import { auth } from "../src/lib/clientApp";
 import toast, { Toaster } from "react-hot-toast";
 import { useSearchParams } from 'next/navigation'
 import { Bars } from 'react-loader-spinner'
-
+import EnterCode from './entercode'
 export default function OTP() {
     const router = useRouter()
 
@@ -27,7 +27,7 @@ export default function OTP() {
 
     const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
+    const [otp,setOtp]= useState("");
     useEffect(() => {
         if (window) {
             // set props data to session storage or local storage  
@@ -143,7 +143,7 @@ export default function OTP() {
         console.log(confirmationResult)
         // ... Your submit logic here
         try {
-            var credential = PhoneAuthProvider.credential(confirmationResult.verificationId, Number(inputValues.input1 + inputValues.input2 + inputValues.input3 + inputValues.input4 + inputValues.input5 + inputValues.input6));
+            var credential = PhoneAuthProvider.credential(confirmationResult.verificationId, Number(otp));
             const loggedIn = await signInWithCredential(auth, credential)
             console.log(loggedIn)
             if (loggedIn.user.accessToken) {
@@ -162,6 +162,7 @@ export default function OTP() {
                     .then((data) => {
                         console.log(data);
                         setLoading(false)
+                       // toast.success("Your vote has been submitted successfully");
 
                         //sessionStorage.setItem('token', data)
                         router.push('/success?name='+name)
@@ -223,6 +224,7 @@ export default function OTP() {
                 .then((data) => {
                     console.log(data);
                     setLoading(false)
+                   // toast.success("Your vote has been submitted successfully");
 
                     //sessionStorage.setItem('token', data)
                     router.push('/success?name='+name)
@@ -268,6 +270,9 @@ export default function OTP() {
 	var camalize = function camalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
+    const handleCodeSubmit = async (code) => {
+        setOtp(code)
+    }
     return (
         <div>
             <div className="flex flex-col items-center align-middle justify-center pt-10">
@@ -276,12 +281,12 @@ export default function OTP() {
 					radius="full"
 					size="lg"
 					className="w-40 h-40 text-large align-middle" />
-				<div className="text-6xl   pt-2">
+				<div className="text-6xl pt-2 pb-2">
 					{name ? camalize(name) : 'Tara'}
 				</div>
-				<div className=" text-mini  pt-2 pb-2">
+				{/* <div className=" text-mini  pt-2 pb-2">
                     Verify your number to make your vote count
-                </div>
+                </div> */}
             </div>
             <Card
                 isBlurred
@@ -298,6 +303,11 @@ export default function OTP() {
                                 Enter your OTP
                             </div>
                             <div id='OTPInputGroup' className="digitGroup" data-autosubmit="true">
+                            <EnterCode isLoading={isLoading} callback={handleCodeSubmit} />
+
+                            </div>
+
+                          {/*   <div id='OTPInputGroup' className="digitGroup" data-autosubmit="true">
                                 <OTPInput
                                     id="input1"
                                     value={inputValues.input1}
@@ -347,7 +357,7 @@ export default function OTP() {
                                     nextId="input6"
                                 //  handleSubmit={handleSubmit}
                                 />
-                            </div>
+                            </div> */}
                             <span>OTP sent to +91 {phone.substring(0, 2)}******{phone.substring(8, 10)}</span>
 
                             {/*  <div className="btnGroup" onClick={handleSubmit}>
@@ -408,6 +418,7 @@ const OTPInput = ({ id, previousId, nextId, value, onValueChange, handleSubmit }
             } else {
                 //check if inputGroup has autoSubmit enabled
                 const inputGroup = document.getElementById('OTPInputGroup');
+                console.log(inputGroup)
                 if (inputGroup && inputGroup.dataset['autosubmit']) {
                     //submit the form
                     handleSubmit();

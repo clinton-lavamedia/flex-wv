@@ -16,7 +16,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function Success() {
   const [height, setHeight] = useState(0);
-  const [otpTime, setOtpTime] = useState(4);
+  const [otpTime, setOtpTime] = useState(0);
   const router = useRouter()
   const [phone, setPhone] = useState("");
 
@@ -24,12 +24,9 @@ export default function Success() {
 
   var param = searchParams.get('name')
   const [name, setName] = useState(param ? param : 'Tara');
-  useEffect(() => {
-    if (window) {
-      setHeight(window.innerHeight);
+  const [rendered, setRendered] = useState(false);
 
-    }
-  }, []);
+
   useEffect(() => {
     if (otpTime > 0) {
       const intervalId = setInterval(() => {
@@ -39,6 +36,16 @@ export default function Success() {
     }
   }, [otpTime]);
   useEffect(() => {
+    if(rendered){
+    //  console.group('here')
+      toast.success("Your vote has been submitted successfully");
+    }
+    
+    if( ! rendered ) {
+        setRendered(true);
+    }
+}, [phone]);
+  useEffect(() => {
     if (window) {
       // set props data to session storage or local storage  
       const phone = window.sessionStorage.getItem('phone')
@@ -47,6 +54,8 @@ export default function Success() {
         // toast.error("something wrong try to again send otp");
         return;
       }
+      setHeight(window.innerHeight);
+      
       setPhone(phone)
 
       console.log(phone)
@@ -96,6 +105,8 @@ export default function Success() {
 	}
   return (
     <div className="flex flex-col items-center align-middle justify-center pt-10">
+       <Toaster />
+
       {otpTime > 0 ?
 
         <div className="flex flex-col items-center align-middle justify-center pt-10">
@@ -164,7 +175,7 @@ export default function Success() {
         </div>
 
       }
-
+               
     </div >
   );
 }
