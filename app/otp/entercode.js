@@ -36,35 +36,68 @@ export default function EnterCode({ callback, reset, isLoading }) {
         resetCode();
     }, [reset]); //eslint-disable-line
 
+     // Capture pasted characters
+     const handlePaste = (e) => {
+        const pastedCode = e.clipboardData.getData('text');
+       console.log(pastedCode)
+        if (pastedCode.length === 6) {
+            
+            inputRefs.forEach((inputRef, index) => {
+                inputRef.current.value = pastedCode.charAt(index);
+            });
+            setCode(pastedCode);
+        }
+    };
+
     // Handle input
     function handleInput(e, index) {
         const input = e.target;
+        console.log(input.value)
+        const value=input.value
         const previousInput = inputRefs[index - 1];
-        const nextInput = inputRefs[index + 1];
-
-        // Update code state with single digit
-        const newCode = [...code];
-        // Convert lowercase letters to uppercase
-        if (/^[a-z]+$/.test(input.value)) {
-            const uc = input.value.toUpperCase();
-            newCode[index] = uc;
-            inputRefs[index].current.value = uc;
-        } else {
-            newCode[index] = input.value;
-        }
-        setCode(newCode.join(''));
-
-        input.select();
-
-        if (input.value === '') {
-            // If the value is deleted, select previous input, if exists
-            if (previousInput) {
-                previousInput.current.focus();
-            }
-        } else if (nextInput) {
-            // Select next input on entry, if exists
+        var nextInput = inputRefs[index + 1];
+        if (value.trim().length > 1) {
+            inputRefs.forEach((inputRef, index) => {
+                inputRef.current.value = value.charAt(index);
+            });
+            nextInput = inputRefs[value.trim().length-1];
             nextInput.current.select();
-        }
+            setCode(value);
+          /*   e.clipboardData = {
+              getData: () => input.value.trim(),
+            };
+           // resetCode();
+           console.log(e)
+           input.select();
+            handlePaste(e); */
+          } else {
+           
+    
+            // Update code state with single digit
+            const newCode = [...code];
+            // Convert lowercase letters to uppercase
+            if (/^[a-z]+$/.test(input.value)) {
+                const uc = input.value.toUpperCase();
+                newCode[index] = uc;
+                inputRefs[index].current.value = uc;
+            } else {
+                newCode[index] = input.value;
+            }
+            setCode(newCode.join(''));
+    
+            input.select();
+    
+            if (input.value === '') {
+                // If the value is deleted, select previous input, if exists
+                if (previousInput) {
+                    previousInput.current.focus();
+                }
+            } else if (nextInput) {
+                // Select next input on entry, if exists
+                nextInput.current.select();
+            }
+          }
+       
     }
 
     // Select the contents on focus
@@ -87,16 +120,7 @@ export default function EnterCode({ callback, reset, isLoading }) {
         }
     }
 
-    // Capture pasted characters
-    const handlePaste = (e) => {
-        const pastedCode = e.clipboardData.getData('text');
-        if (pastedCode.length === 6) {
-            setCode(pastedCode);
-            inputRefs.forEach((inputRef, index) => {
-                inputRef.current.value = pastedCode.charAt(index);
-            });
-        }
-    };
+   
 
     // Clear button deletes all inputs and selects the first input for entry
     const ClearButton = () => {
@@ -116,7 +140,7 @@ export default function EnterCode({ callback, reset, isLoading }) {
                 <input
                     className="text-2xl bg-gray-800 w-10 flex p-2 text-center"
                     key={index}
-                    type="number"
+                    type="text"
                     maxLength={1}
                     onChange={(e) => handleInput(e, index)}
                     ref={inputRefs[index]}
