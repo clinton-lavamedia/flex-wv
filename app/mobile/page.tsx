@@ -225,7 +225,7 @@ useEffect(() => {
 										],
 									}}
 									isRequired
-									type="number"
+									type="tel"
 									placeholder=" 0000000000"
 									onValueChange={setPhone}
 									value={phone}
